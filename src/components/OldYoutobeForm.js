@@ -1,5 +1,5 @@
 import React from "react";
-import { useFormik } from "formik";
+import { Formik, Form } from "formik";
 import * as Yup from "yup";
 
 function YoutobeForm() {
@@ -9,35 +9,23 @@ function YoutobeForm() {
     email: Yup.string().email("Invalid email format").required("Required"),
     channel: Yup.string().required("Required")
   });
-  const formik = useFormik({
-    initialValues: { name: "", email: "", channel: "" },
-    onSubmit: (values) => {
-      console.log("Form Submit", values);
-    },
-    validationSchema
-    // validate: (values) => {
-    //   let errors = {};
+  const initialValues = {
+    name: "Vishwas",
+    email: "",
+    channel: ""
+  };
 
-    //   if (!values.name) {
-    //     errors.name = "Required";
-    //   }
-    //   if (!values.email) {
-    //     errors.email = "Required";
-    //   } else if (!validator.isEmail(values.email)) {
-    //     errors.email = "Invalid Email";
-    //   }
-    //   if (!values.channel) {
-    //     errors.channel = "Required";
-    //   }
+  const onSubmit = (values) => {
+    console.log("Form data", values);
+  };
 
-    //   return errors;
-    // }
-  });
-
-  console.log("Visited field", formik.touched);
   return (
-    <div>
-      <form onSubmit={formik.handleSubmit}>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={onSubmit}
+    >
+      <Form>
         <div className="form-control">
           <label htmlFor="name">Name</label>
           <input
@@ -75,8 +63,8 @@ function YoutobeForm() {
           )}
         </div>
         <button type="submit">Submit</button>
-      </form>
-    </div>
+      </Form>
+    </Formik>
   );
 }
 
